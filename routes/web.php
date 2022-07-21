@@ -13,11 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home.template-kit.homepage.index');
-});
+// Route::get('/', function () {
+//     return view('home.template-kit.homepage.index');
+// })->name('accueil');
 
-Route::get('/citizen/dashboard', [App\Http\Controllers\CitizenDashboardController::class,'index'])->name('citizen.dashboard');
 
 
 Route::get('/register/{uri?}',function($uri=null){
@@ -37,27 +36,48 @@ Route::get('/citizen',function(){
     return view('citizen.index');
 });
 
+Route::get('/',[App\Http\Controllers\CitizenDashboardController::class, 'eservice'])->name('eservice');
+Route::get('/detail/{eserviceName}', [App\Http\Controllers\CitizenDashboardController::class,'detail'])->name('eservice.detail');
+
+
+Route::get('/citizen/eservice',[App\Http\Controllers\CitizenDashboardController::class, 'eservice'])->name('eservice');
+
 Route::get('/citizen/visa/request',function(){
     return view('citizen.visa.create');
 });
 
-Route::get('visa/payment', [App\Http\Controllers\VisaController::class, 'payment'])->name('visa.payment');
-
-Route::get('/citizen/visa/request/step1',[App\Http\Controllers\VisaController::class, 'createStep1'])->name('visa.createStep1');
 
 
 Route::middleware(['isAuthenticate'])->group(function(){
+    Route::get('/citizen/dashboard', [App\Http\Controllers\CitizenDashboardController::class,'index'])->name('citizen.dashboard');
+
+
+    Route::get('/citizen/visa/{demandeId}', [App\Http\Controllers\VisaController::class, 'showForCitizen'])->name('citizen.visa.show');
+    Route::get('visa/payment', [App\Http\Controllers\VisaController::class, 'payment'])->name('visa.payment');
     Route::get('/citizen/visa/request/step1',[App\Http\Controllers\VisaController::class, 'createStep1'])->name('visa.createStep1');
     Route::post('/citizen/visa/request/step1',[App\Http\Controllers\VisaController::class, 'storeStep1'])->name('visa.storeStep1');
-
-
     Route::get('/citizen/visa/request/step2',[App\Http\Controllers\VisaController::class, 'createStep2'])->name('visa.createStep2');
     Route::post('/citizen/visa/request/step2',[App\Http\Controllers\VisaController::class, 'storeStep2'])->name('visa.storeStep2');
-
     Route::get('/citizen/visa/request/step3',[App\Http\Controllers\VisaController::class, 'createStep3'])->name('visa.createStep3');
     Route::post('/citizen/visa/request/step3',[App\Http\Controllers\VisaController::class, 'storeStep3'])->name('visa.storeStep3');
-
     Route::get('/citizen/visa/request/store/{transactionId}', [App\Http\Controllers\VisaController::class, 'store']);
+
+
+
+
+    Route::get('/citizen/carteConsulaire/{demandeId}', [App\Http\Controllers\CarteConsulaireController::class, 'showForCitizen'])->name('citizen.carteConsulaire.show');
+
+    Route::get('carte-consulaire/payment', [App\Http\Controllers\CarteConsulaireController::class, 'payment'])->name('carteConsulaire.payment');
+    Route::get('/citizen/carte-consulaire/request/step1',[App\Http\Controllers\CarteConsulaireController::class, 'createStep1'])->name('carteConsulaire.createStep1');
+    Route::post('/citizen/carte-consulaire/request/step1',[App\Http\Controllers\CarteConsulaireController::class, 'storeStep1'])->name('carteConsulaire.storeStep1');
+    Route::get('/citizen/carte-consulaire/request/step2',[App\Http\Controllers\CarteConsulaireController::class, 'createStep2'])->name('carteConsulaire.createStep2');
+    Route::post('/citizen/carte-consulaire/request/step2',[App\Http\Controllers\CarteConsulaireController::class, 'storeStep2'])->name('carteConsulaire.storeStep2');
+    Route::get('/citizen/carte-consulaire/request/step3',[App\Http\Controllers\CarteConsulaireController::class, 'createStep3'])->name('carteConsulaire.createStep3');
+    Route::post('/citizen/carte-consulaire/request/step3',[App\Http\Controllers\CarteConsulaireController::class, 'storeStep3'])->name('carteConsulaire.storeStep3');
+    Route::get('/citizen/carte-consulaire/request/store/{transactionId}', [App\Http\Controllers\CarteConsulaireController::class, 'store']);
+
+
+    
 });
 
 Route::middleware(['isSecretary'])->group(function(){

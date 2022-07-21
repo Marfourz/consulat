@@ -1,9 +1,10 @@
 <div class="flex h-16 bg-green-700 items-center justify-between text-white p-8">
     <div><img src="{{ asset('images/logo.png') }}" alt="" class="w-16 h-16"></div>
     <div class=" flex space-x-8">
-        <div> Accueil </div>
-        <div> Services </div>
-        <div>A propos</div>
+        {{-- <div> <a href="{{route('eservice')}}">Accueil</a> </div> --}}
+        <div> <a href="{{route('eservice')}}">Service</a> </div>
+        <div> <a href="{{route('citizen.dashboard')}}">Mes demandes</a></div>
+        <div> <a href="{{route('citizen.dashboard')}}">A propos de nous</a></div>
     </div>
 
     @if(!Auth::check())

@@ -33,8 +33,7 @@ class CreateCarteConsulairesTable extends Migration
             $table->dateTime("passport_extend_from");
             $table->dateTime("passport_extend_to");
             $table->string("passport_extend_by");
-            $table->string('picture',40);
-            $table->string('attestation_residence');
+           
             $table->timestamps();  
 
             $table->unsignedBigInteger('user_id');

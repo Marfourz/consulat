@@ -76,8 +76,7 @@
 
 <style>
     .doc{
-        background: linear-gradient(#fed7aa,#d9f99d), url(img/hero-bg.jpg);
-        
+        background-image: linear-gradient(#fed7aa,#d9f99d);        
     }
     td
     {

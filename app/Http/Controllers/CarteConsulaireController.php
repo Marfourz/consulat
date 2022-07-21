@@ -3,48 +3,48 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Visa;
 use App\Models\GlobalInfo;
-use App\Models\TraitementVisa;
+use App\Models\TraitementCarteConsulaire;
+use App\Models\CarteConsulaire;
 use Arr;
 use Auth;
 use PDF;
 
-class VisaController extends Controller
+class CarteConsulaireController extends Controller
 {
     
     public function createStep1(Request $request){
     
         if($request->session()->has('step1Data'))
-            return view('citizen.visa.step1',[
+            return view('citizen.carteConsulaire.step1',[
                 "data" => $request->session()->get('step1Data')
             ]);
-        return view('citizen.visa.step1'); 
+        return view('citizen.carteConsulaire.step1'); 
     }
 
     public function storeStep1(Request $request){
         
         $request->session()->put('step1Data',$request->input());
         $data = $request->input();
-        return redirect()->route('visa.createStep2');
+        return redirect()->route('carteConsulaire.createStep2');
     }
 
     public function createStep2(Request $request){
         if($request->session()->has('step2Data'))
-            return view('citizen.visa.step2',[
+            return view('citizen.carteConsulaire.step2',[
                 "data" => $request->session()->get('step2Data')
             ]);
-        return view('citizen.visa.step2'); 
+        return view('citizen.carteConsulaire.step2'); 
     }
 
     public function storeStep2(Request $request){
         
         $request->session()->put('step2Data',$request->input());
-        return redirect()->route('visa.createStep3');
+        return redirect()->route('carteConsulaire.createStep3');
     }
 
     public function createStep3(){
-        return view('citizen.visa.step3'); 
+        return view('citizen.carteConsulaire.step3'); 
     }
 
     public function storeStep3(Request $request){
@@ -52,26 +52,26 @@ class VisaController extends Controller
         $user_id = Auth::user()->id;
         $files = [];
         
-        $files['path_plane_ticket'] = $request->file('plane_ticket')->storeAs(
-            'visas/planes_tickets',$user_id . ' - billet avion'
-        );
-
-        $files['path_passport'] = $request->file('passport')->storeAs(
-            'visas/passports', $user_id . ' - passeport'
-        );
-
-        $files['path_letter_invatation_or_hotel_reservation'] = $request->file('letter_invatation_or_hotel_reservation')->storeAs(
-            'visas/invitations-letters',$user_id . ' - lettre invitation'
+        $files['path_residence_attestation'] = $request->file('attestation_residence')->storeAs(
+            'carteConsulaires/attestation_residence',$user_id . '-billet-avion'
         );
 
         $files['path_picture'] = $request->file('picture')->storeAs(
-            'visas/pictures',$user_id . '-photo.png'
+            'carteConsulaires/pictures',$user_id . '-photo.png'
         );
 
         $request->session()->put('step3Data',$files);
 
-        return redirect()->route('visa.payment');
+        return redirect()->route('carteConsulaire.payment');
        
+    }
+
+    
+    public function payment(){
+        $amount = GlobalInfo::first()->price_visa;
+        $redirectionUrl = "/citizen/carte-consulaire/request/store/";
+        return view('citizen.payment',compact('amount','redirectionUrl'));
+        
     }
 
     public function store(Request $request,$transactionId){
@@ -79,10 +79,11 @@ class VisaController extends Controller
             return redirect()->route('visa.createStep1');
         $data = Arr::collapse([$request->session()->get('step1Data'),$request->session()->get('step2Data'),$request->session()->get('step3Data')]);
         $data = Arr::except($data,['_token']);
+        
         $data['transactionId'] = $transactionId;
         $data['user_id'] = Auth::user()->id;
 
-        $visa = Visa::create($data);
+        $visa = CarteConsulaire::create($data);
 
         $visa->save();
 
@@ -90,24 +91,18 @@ class VisaController extends Controller
         $request->session()->pull('step2Data');
         $request->session()->pull('step3Data');
         
-        return redirect('/citizen')->withSuccess("Demande de visa prise en compte avec succès, nous vous reviendrons dans quelques jours");
+        return redirect()->route('citizen')->withSuccess("Demande de carte consulaire prise en compte avec succès, nous vous reviendrons dans quelques jours");
     }
 
-    public function payment(){
-        $amount = GlobalInfo::first()->price_visa;
-        $redirectionUrl = "/citizen/visa/request/store/";
-        return view('citizen.payment',compact('amount','redirectionUrl'));
-        
-    }
 
     public function show($demandeId){
-        $demande = Visa::where('id',$demandeId)->first();
-        return view('secretary.detailVisa',compact('demande'));
+        $demande = CarteConsulaire::where('id',$demandeId)->first();
+        return view('secretary.detailCarteConsulaire',compact('demande'));
     }
 
     public function showForCitizen($demandeId){
-        $demande = Visa::where('id',$demandeId)->first();
-        return view('citizen.visa.show',compact('demande'));
+        $demande = CarteConsulaire::where('id',$demandeId)->first();
+        return view('citizen.carteConsulaire.show',compact('demande'));
     }
 
     public function showRequestReject($demandeId){

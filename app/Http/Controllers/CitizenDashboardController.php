@@ -17,6 +17,8 @@ class CitizenDashboardController extends Controller
         $demandes = Arr::sort($demandes,function($value){
             return $value['created_at'];
         });
+
+       
         
         return view('citizen.index',compact(['demandes']));
     }

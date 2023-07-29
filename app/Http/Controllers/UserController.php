@@ -60,16 +60,20 @@ class UserController extends Controller
             'password'=> 'required'
         ]);
         $user = User::where('email',$request->input()['email'])->first();
-        
+
+       
     
         if($user){
+            
             if(Hash::check($request->input()['password'],$user->password))
             {
+              
                 Auth::login($user);
                 if($redirectionUrl)
                     return redirect($redirectionUrl);
                 if(Auth::user()->role == "secretary")
                     return redirect()->route('secretary.dashboard');
+                return redirect()->route('citizen.dashboard');
             }
         }
         return redirect()->route('login')->withDanger('Identifiants incorrectes');

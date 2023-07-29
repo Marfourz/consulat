@@ -9,6 +9,7 @@ use App\Models\TraitementVisa;
 use Arr;
 use Auth;
 use PDF;
+use Str;
 
 class VisaController extends Controller
 {
@@ -51,23 +52,23 @@ class VisaController extends Controller
 
         $user_id = Auth::user()->id;
         $files = [];
-        
+
         $files['path_plane_ticket'] = $request->file('plane_ticket')->storeAs(
-            'visas/planes_tickets',$user_id . ' - billet avion'
+            'visas/planes_tickets',Str::random() .'-' . $user_id . '-billet-avion.' . $request->file('plane_ticket')->extension()
         );
 
         $files['path_passport'] = $request->file('passport')->storeAs(
-            'visas/passports', $user_id . ' - passeport'
+            'visas/passports',Str::random() . '-' . $user_id . '-passeport.' . $request->file('passport')->extension()
         );
 
         $files['path_letter_invatation_or_hotel_reservation'] = $request->file('letter_invatation_or_hotel_reservation')->storeAs(
-            'visas/invitations-letters',$user_id . ' - lettre invitation'
+            'visas/invitations-letters',Str::random() . '-' . $user_id . '-lettre-invitation.' . $request->file('letter_invatation_or_hotel_reservation')->extension()
         );
 
         $files['path_picture'] = $request->file('picture')->storeAs(
-            'visas/pictures',$user_id . '-photo.png'
+            'visas/pictures',Str::random() . '-' . $user_id . '-photo.' . $request->file('picture')->extension()
         );
-
+      
         $request->session()->put('step3Data',$files);
 
         return redirect()->route('visa.payment');
@@ -90,7 +91,7 @@ class VisaController extends Controller
         $request->session()->pull('step2Data');
         $request->session()->pull('step3Data');
         
-        return redirect('/citizen')->withSuccess("Demande de visa prise en compte avec succès, nous vous reviendrons dans quelques jours");
+        return redirect('/citizen/dashboard')->withSuccess("Demande de visa prise en compte avec succès, nous vous reviendrons dans quelques jours");
     }
 
     public function payment(){
@@ -102,7 +103,7 @@ class VisaController extends Controller
 
     public function show($demandeId){
         $demande = Visa::where('id',$demandeId)->first();
-        return view('secretary.detailVisa',compact('demande'));
+        return view('secretary.visa.detail',compact('demande'));
     }
 
     public function showForCitizen($demandeId){

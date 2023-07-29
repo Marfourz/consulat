@@ -43,9 +43,11 @@
                     <div>Ce service permet de consulter les appels d'offre et de soumissionner aux marchés publics à travers
                         la plate-forme</div>
                     <div class="text-blue-700 font-bold uderline cursor-pointer">Afficher les détails</div>
-                    <div
-                        class="mt-4 text-bold text-white rounded border-2 border-green-700 bg-green-700 text-center px-4 py-2">
-                        Faire une demande</div>
+                    <a href="{{ route('laissezPasser.createStep1') }}">
+                        <div
+                            class="mt-4 text-bold text-white rounded border-2 border-green-700 bg-green-700 text-center px-4 py-2">
+                            Faire une demande</div>
+                    </a>
                 </div>
 
                 <div class="border-2 rounded px-4 py-6 flex-col space-y-6">

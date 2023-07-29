@@ -8,8 +8,9 @@ use App\Models\TraitementCarteConsulaire;
 use App\Models\CarteConsulaire;
 use Arr;
 use Auth;
-use PDF;
-
+use Barryvdh\DomPDF\Facade\Pdf;
+use Str;
+use File;
 class CarteConsulaireController extends Controller
 {
     
@@ -51,13 +52,15 @@ class CarteConsulaireController extends Controller
 
         $user_id = Auth::user()->id;
         $files = [];
+       
+       
         
         $files['path_residence_attestation'] = $request->file('attestation_residence')->storeAs(
-            'carteConsulaires/attestation_residence',$user_id . '-billet-avion'
+            'carteConsulaires/attestation_residence',Str::random() . '-attestation-residence.' . $request->file('attestation_residence')->extension()
         );
 
         $files['path_picture'] = $request->file('picture')->storeAs(
-            'carteConsulaires/pictures',$user_id . '-photo.png'
+            'carteConsulaires/pictures',Str::random() . '-photo.' . $request->file('picture')->extension()
         );
 
         $request->session()->put('step3Data',$files);
@@ -91,13 +94,13 @@ class CarteConsulaireController extends Controller
         $request->session()->pull('step2Data');
         $request->session()->pull('step3Data');
         
-        return redirect()->route('citizen')->withSuccess("Demande de carte consulaire prise en compte avec succès, nous vous reviendrons dans quelques jours");
+        return redirect()->route('citizen.dashboard')->withSuccess("Demande de carte consulaire prise en compte avec succès, nous vous reviendrons dans quelques jours");
     }
 
 
     public function show($demandeId){
         $demande = CarteConsulaire::where('id',$demandeId)->first();
-        return view('secretary.detailCarteConsulaire',compact('demande'));
+        return view('secretary.detail',compact('demande'));
     }
 
     public function showForCitizen($demandeId){
@@ -106,47 +109,54 @@ class CarteConsulaireController extends Controller
     }
 
     public function showRequestReject($demandeId){
-        $demande = Visa::where('id',$demandeId)->first();
-        return view('secretary.detailVisaError',compact('demande'));
+        $demande = CarteConsulaire::where('id',$demandeId)->first();
+        return view('secretary.carteConsulaire.reject',compact('demande'));
     }
 
     public function preview($demandeId){
-        $demande = Visa::where('id',$demandeId)->first();
-        return view('secretary.visa.preview',compact('demande'));
+        $demande = CarteConsulaire::where('id',$demandeId)->first();
+        return view('secretary.carteConsulaire.preview',compact('demande'));
     }
 
     public function download($demandeId){
-        $demande = Visa::where('id',$demandeId)->first();
-        
-        $pdf = PDF::loadView('secretary.visa.template', compact('demande'));
+        $demande = CarteConsulaire::where('id',$demandeId)->first();
+        Pdf::setOption(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+        $pdf = PDF::loadView('secretary.carteConsulaire.template', compact('demande'))->setWarnings(false);
         return $pdf->download("visa.pdf");
     }
 
     public function reject(Request $request){
-        $traitement = new TraitementVisa();
+       
+        $traitement = new TraitementCarteConsulaire();
         $traitement->status = "reject";
         $traitement->comment = $request->input()['comment'];
         $traitement->user_id = Auth::user()->id;
-        $traitement->visa_id = $request->input()['demandeId'];
+        $traitement->carte_consulaire_id = $request->input()['demandeId'];
         $traitement->save();
-        return redirect()->route("visa.show",$request->input()['demandeId'])->withDanger('Demande rejetée avec succès'); 
+        return redirect()->route("carteConsulaire.show",$request->input()['demandeId'])->withDanger('Demande rejetée avec succès'); 
     }
 
     public function generate(Request $request){
+        $directory = 'storage/carteConsulaire/documents';
+       if(!File::isDirectory($directory))
+            File::makeDirectory($directory, 0777, true, true);
         $data = $request->input();
-        $demande = Visa::where('id',$data['demandeId'])->first();
-        $customPaper = array(0,0,200,160);
-        $pdf = PDF::loadView('secretary.visa.template', compact('demande','data'))->setPaper($customPaper,'landscape');
-        $path = "storage/visas/documents/" . $demande->user->id ."-visa.pdf";
+        $demande = CarteConsulaire::where('id',$data['demandeId'])->first();
+
+        Pdf::setOption(['defaultFont' => 'sans-serif']);
+        $customPaper = array(0,0,260,450);
+        $pdf = PDF::loadView('secretary.carteConsulaire.template', compact('demande','data'))->setWarnings(false)->setPaper($customPaper, 'landscape');
+
+        //$pdf = PDF::loadView('secretary.carteConsulaire.template', compact('demande','data'));
+        $path = $directory . $demande->user->id ."-carteConsulaire.pdf";
         $pdf->save(public_path($path));
-        $traitement = new TraitementVisa();
+        $traitement = new TraitementCarteConsulaire();
         $traitement->status = "accept";
         $traitement->document = $path;
-        $traitement->expiry_at = $data['expiry_at'];
-        $traitement->entry_at = $data['entry_at'];
+        $traitement->start_at = $data['start_at'];
         $traitement->user_id = Auth::user()->id;
-        $traitement->visa_id = $demande->id;
+        $traitement->carte_consulaire_id = $demande->id;
         $traitement->save();
-        return redirect()->route("visa.show",$demande->id)->withSucces('Document généré avev succès');
+        return redirect()->route("carteConsulaire.show",$demande->id)->withSucces('Document généré avev succès');
     }
 }

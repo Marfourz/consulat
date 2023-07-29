@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('home.template-kit.homepage.index');
-// })->name('accueil');
 
 
 
@@ -32,9 +29,7 @@ Route::get('/login/{uri?}',function($uri=null){
 
 Route::post('/login',[App\Http\Controllers\UserController::class, 'login'])->name('verifyLogin');
 
-Route::get('/citizen',function(){
-    return view('citizen.index');
-});
+
 
 Route::get('/',[App\Http\Controllers\CitizenDashboardController::class, 'eservice'])->name('eservice');
 Route::get('/detail/{eserviceName}', [App\Http\Controllers\CitizenDashboardController::class,'detail'])->name('eservice.detail');
@@ -63,10 +58,7 @@ Route::middleware(['isAuthenticate'])->group(function(){
     Route::get('/citizen/visa/request/store/{transactionId}', [App\Http\Controllers\VisaController::class, 'store']);
 
 
-
-
     Route::get('/citizen/carteConsulaire/{demandeId}', [App\Http\Controllers\CarteConsulaireController::class, 'showForCitizen'])->name('citizen.carteConsulaire.show');
-
     Route::get('carte-consulaire/payment', [App\Http\Controllers\CarteConsulaireController::class, 'payment'])->name('carteConsulaire.payment');
     Route::get('/citizen/carte-consulaire/request/step1',[App\Http\Controllers\CarteConsulaireController::class, 'createStep1'])->name('carteConsulaire.createStep1');
     Route::post('/citizen/carte-consulaire/request/step1',[App\Http\Controllers\CarteConsulaireController::class, 'storeStep1'])->name('carteConsulaire.storeStep1');
@@ -77,18 +69,48 @@ Route::middleware(['isAuthenticate'])->group(function(){
     Route::get('/citizen/carte-consulaire/request/store/{transactionId}', [App\Http\Controllers\CarteConsulaireController::class, 'store']);
 
 
+    Route::get('/citizen/laissezPassez/{demandeId}', [App\Http\Controllers\LaissezPasserController::class, 'showForCitizen'])->name('citizen.laissezPasser.show');
+    Route::get('laissez-passser/payment', [App\Http\Controllers\LaissezPasserController::class, 'payment'])->name('laissezPasser.payment');
+    Route::get('/citizen/laissez-passer/request/step1',[App\Http\Controllers\LaissezPasserController::class, 'createStep1'])->name('laissezPasser.createStep1');
+    Route::post('/citizen/laissez-passer/request/step1',[App\Http\Controllers\LaissezPasserController::class, 'storeStep1'])->name('laissezPasser.storeStep1');
+    Route::get('/citizen/laissez-passer/request/step2',[App\Http\Controllers\LaissezPasserController::class, 'createStep2'])->name('laissezPasser.createStep2');
+    Route::post('/citizen/laissez-passer/request/step2',[App\Http\Controllers\LaissezPasserController::class, 'storeStep2'])->name('laissezPasser.storeStep2');
+    Route::get('/citizen/laissez-passer/request/step3',[App\Http\Controllers\LaissezPasserController::class, 'createStep3'])->name('laissezPasser.createStep3');
+    Route::post('/citizen/laissez-passer/request/step3',[App\Http\Controllers\LaissezPasserController::class, 'storeStep3'])->name('laissezPasser.storeStep3');
+    Route::get('/citizen/laissez-passer/request/store/{transactionId}', [App\Http\Controllers\LaissezPasserController::class, 'store']);
+
+
     
 });
 
 Route::middleware(['isSecretary'])->group(function(){
+    
+    Route::get('/secretary/dashboard', [App\Http\Controllers\SecretaryDashboardController::class,'index'])->name('secretary.dashboard');
+
+
+    Route::get('/carteConsulaire/{demandeId}', [App\Http\Controllers\CarteConsulaireController::class, 'show'])->name('carteConsulaire.show');
+    Route::get('/carteConsulaire/{demandeId}/preview', [App\Http\Controllers\CarteConsulaireController::class, 'preview'])->name('carteConsulaire.preview');
+    Route::get('/carteConsulaire/{demandeId}/download', [App\Http\Controllers\CarteConsulaireController::class, 'download'])->name('carteConsulaire.download');
+    Route::get('/carteConsulaire/{demandeId}/reject',[App\Http\Controllers\CarteConsulaireController::class, 'showRequestReject'])->name('carteConsulaire.showWithError');
+    Route::post('/carteConsulaire/reject', [App\Http\Controllers\CarteConsulaireController::class, 'reject'])->name('carteConsulaire.reject');
+    Route::post('/citizen/carte-consulaire/generate',[App\Http\Controllers\CarteConsulaireController::class, 'generate'])->name('carteConsulaire.generate');
+
+    
+
+    Route::get('/visa/{demandeId}', [App\Http\Controllers\VisaController::class, 'show'])->name('visa.show');
     Route::get('/visa/{demandeId}/preview', [App\Http\Controllers\VisaController::class, 'preview'])->name('visa.preview');
     Route::get('/visa/{demandeId}/download', [App\Http\Controllers\VisaController::class, 'download'])->name('visa.download');
-    Route::post('/visa/generate', [App\Http\Controllers\VisaController::class, 'generate'])->name('visa.generate');
-
-    Route::get('/secretary/dashboard', [App\Http\Controllers\SecretaryDashboardController::class,'index'])->name('secretary.dashboard');
-    Route::get('/visa/{demandeId}', [App\Http\Controllers\VisaController::class, 'show'])->name('visa.show');
     Route::get('/visa/{demandeId}/reject',[App\Http\Controllers\VisaController::class, 'showRequestReject'])->name('visa.showWithError');
     Route::post('/visa/reject', [App\Http\Controllers\VisaController::class, 'reject'])->name('visa.reject');
+
+    Route::get('/laissezPasser/{demandeId}', [App\Http\Controllers\LaissezPasserController::class, 'show'])->name('laissezPasser.show');
+    Route::get('/laissezPasser/{demandeId}/preview', [App\Http\Controllers\LaissezPasserController::class, 'preview'])->name('laissezPasser.preview');
+    Route::get('/laissezPasser/{demandeId}/download', [App\Http\Controllers\LaissezPasserController::class, 'download'])->name('laissezPasser.download');
+    Route::get('/laissezPasser/{demandeId}/reject',[App\Http\Controllers\LaissezPasserController::class, 'showRequestReject'])->name('laissezPasser.showWithError');
+    Route::post('/laissezPasser/reject', [App\Http\Controllers\LaissezPasserController::class, 'reject'])->name('laissezPasser.reject');
+    Route::post('/laissezPasser/generate',[App\Http\Controllers\LaissezPasserController::class, 'generate'])->name('laissezPasser.generate');
+
+
 
 
 });

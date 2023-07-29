@@ -103,9 +103,18 @@
                     @endif
                 </td>
                 
+                
                 <td>
+               
+                @if($demande->type() == 'visa')
                     <a href="{{route('visa.show',$demande->id)}}" class="text-blue-700 font-bold">Consulter</a>
+                @elseif ($demande->type() == 'CarteConsulaire')
+                    <a href="{{route('carteConsulaire.show',$demande->id)}}" class="text-blue-700 font-bold">Consulter</a>
+                @else
+                    <a href="{{route('laissezPasser.show',$demande->id)}}" class="text-blue-700 font-bold">Consulter</a>
+                @endif
                 </td>
+                
             </tr>
             @endforeach
 

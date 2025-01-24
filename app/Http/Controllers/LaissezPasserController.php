@@ -106,7 +106,8 @@ class LaissezPasserController extends Controller
 
     public function show($demandeId){
         $demande = LaissezPasser::where('id',$demandeId)->first();
-        return view('secretary.detail',compact('demande'));
+        $menu = "carteConsulaire";
+        return view('secretary.detail',compact('demande', 'menu'));
     }
 
     public function showForCitizen($demandeId){
@@ -143,9 +144,12 @@ class LaissezPasserController extends Controller
     }
 
     public function generate(Request $request){
-        $directory = 'storage/laissezPasser/documents';
-       if(!File::isDirectory($directory))
-            File::makeDirectory($directory, 0777, true, true);
+       
+        $directory =  'laissezPasser' . DIRECTORY_SEPARATOR . 'documents';
+        $saveDirectory = 'app' . DIRECTORY_SEPARATOR  . $directory;
+
+        if(!File::isDirectory(storage_path($saveDirectory)))
+            File::makeDirectory(storage_path($saveDirectory), 0777, true, true);
         $data = $request->input();
         $demande = LaissezPasser::where('id',$data['demandeId'])->first();
 
@@ -156,8 +160,12 @@ class LaissezPasserController extends Controller
         $demande->save();
         
         $pdf = PDF::loadView('secretary.laissezPasser.template', compact('demande','data'));
-        $path = $directory . $demande->user->id ."-laissezPasser.pdf";
-        $pdf->save(public_path($path));
+
+        $path = $directory .  DIRECTORY_SEPARATOR .  $demande->user->id ."-laissezPasser.pdf";
+        $savePath = storage_path($saveDirectory . DIRECTORY_SEPARATOR. $demande->user->id ."-laissezPasser.pdf");
+
+        set_time_limit(0);
+        $pdf->save($savePath);
         $traitement = new TraitementLaissezPasser();
         $traitement->status = "accept";
         $traitement->document = $path;

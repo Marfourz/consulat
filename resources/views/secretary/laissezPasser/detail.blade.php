@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="w-full p-16">
-        @if($demande->status() != "Accepté" && $demande->status() != "Rejeté")
+    @if(!$demande->alreadyAcceptOrReject())
         <div class="text-2xl text-gray-700 mb-8 flex space-x-4 justify-between">
             <div>Détail de la demande de laissez passer</div>
             <div class="flex space-x-2">

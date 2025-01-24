@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
 @section('content')
-    <div class="w-full p-12">
+    <div class="w-full p-12 md:p-4">
 
 
         <div class="bg-white shadow-xl rounded p-8">
@@ -29,7 +29,7 @@
                   
                     <div class="flex">
                         <div class="mb-3 w-96">
-                            <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Une photo d'identité</label>
+                            <label for="formFile" class="form-label inline-block mb-2 text-gray-700"> Une photo d'identité <span class="text-red-700">*</span></label>
                             <input required
                                 class="form-control
                           block
@@ -51,7 +51,7 @@
                     </div>
                     <div class="flex">
                         <div class="mb-3 w-96">
-                            <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Votre attestation de résidence</label>
+                            <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Votre attestation de résidence <span class="text-red-700">*</span></label>
                             <input required
                                 class="form-control
                           block
@@ -74,7 +74,7 @@
 
                     <div class="flex">
                         <div class="mb-3 w-96">
-                            <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Passport expiré</label>
+                            <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Passport expiré <span class="text-red-700">*</span></label>
                             <input required
                                 class="form-control
                           block
@@ -97,7 +97,7 @@
 
                     <div class="flex">
                         <div class="mb-3 w-96">
-                            <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Billet d'avion</label>
+                            <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Billet d'avion <span class="text-red-700">*</span></label>
                             <input required
                                 class="form-control
                           block

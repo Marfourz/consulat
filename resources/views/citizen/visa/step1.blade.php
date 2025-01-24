@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
 @section('content')
-<div class="w-full p-12">
+<div class="w-full md:p-12 p-4">
 
     <div class="bg-white shadow-xl rounded p-8">
         <div class="text-2xl text-gray-700 mb-4">Demande de visa</div>
@@ -21,7 +21,7 @@
             @csrf
             <div class="grid md:grid-cols-3 grid-cols-1 gap-y-4 gap-x-6">
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Situation familiale</label>
+                    <label for="" class="text-gray-600 mb-6">Situation familiale <span class="text-red-700">*</span></label>
                     <div>
                         <select required name="family_status" id=""
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline">
@@ -38,7 +38,7 @@
                 </div>
 
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Nombre d'enfants</label>
+                    <label for="" class="text-gray-600 mb-6" >Nombre d'enfants <span class="text-red-700">*</span></label>
                     <div><input required name="number_of_children" type="number"
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline"
                             value="{{ isset($data) ? $data['number_of_children'] : old('number_of_children') }}"></div>
@@ -49,7 +49,7 @@
                 </div>
 
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Age</label>
+                    <label for="" class="text-gray-600 mb-6">Age <span class="text-red-700">*</span></label>
                     <div><input required name="age" type="number"
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline"
                             value="{{ isset($data) ? $data['age']  : old('age') }}"></div>
@@ -59,7 +59,7 @@
 
                 </div>
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Domicile habituel</label>
+                    <label for="" class="text-gray-600 mb-6">Domicile habituel <span class="text-red-700">*</span></label>
                     <div><input required name="usual_residence" type="text"
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline"
                             value="{{ isset($data) ? $data['usual_residence']  : old('usual_residence') }}"></div>
@@ -69,7 +69,7 @@
 
                 </div>
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Profession</label>
+                    <label for="" class="text-gray-600 mb-6">Profession <span class="text-red-700">*</span></label>
                     <div><input required name="profession" type="text"
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline"
                             value="{{ isset($data) ? $data['profession']  : old('profession') }}"></div>
@@ -79,7 +79,7 @@
 
                 </div>
                 {{-- <div>
-                    <label for="" class="text-gray-600 mb-6">Situation militaire</label>
+                    <label for="" class="text-gray-600 mb-6">Situation militaire <span class="text-red-700">*</span></label>
                     <div><input name="militaru_status" type="text"
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline"
                             value="{{ old('militaru_status') }}"></div>
@@ -89,7 +89,7 @@
                 </div> --}}
 
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Numéro du passport</label>
+                    <label for="" class="text-gray-600 mb-6">Numéro du passport <span class="text-red-700">*</span></label>
                     <div><input name="passport_number" type="text"
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline"
                             value="{{ isset($data) ? $data['passport_number']  : old('passport_number') }}"></div>
@@ -99,8 +99,9 @@
 
                 </div>
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Date d'obtention</label>
+                    <label for="" class="text-gray-600 mb-6">Date d'obtention <span class="text-red-700">*</span></label>
                     <div><input name="passport_created_at" type="date"
+                    required
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline"
                             value="{{ isset($data) ? $data['passport_created_at']  : old('passport_created_at') }}"></div>
                     @error('passport_created_at')
@@ -109,7 +110,7 @@
 
                 </div>
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Lieu d'obtention</label>
+                    <label for="" class="text-gray-600 mb-6">Lieu d'obtention <span class="text-red-700">*</span></label>
                     <div><input name="passport_created_by" type="text"
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline"
                             value="{{ isset($data) ? $data['passport_created_by']  : old('passport_created_by') }}"></div>
@@ -119,7 +120,7 @@
 
                 </div>
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Valide jusqu'au</label>
+                    <label for="" class="text-gray-600 mb-6">Valide jusqu'au <span class="text-red-700">*</span></label>
                     <div><input type="date" name="passport_expiry" type="text"
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline"
                             value="{{ isset($data) ? $data['passport_expiry']  : old('passport_expiry') }}"></div>
@@ -130,7 +131,7 @@
                 </div>
             
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Durée des arrêts (jours)</label>
+                    <label for="" class="text-gray-600 mb-6">Durée des arrêts (jours) <span class="text-red-700">*</span></label>
                     <div><input name="stop_duration" type="text"
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline"
                             value="{{ isset($data) ? $data['stop_duration']  : old('stop_duration') }}"></div>
@@ -139,7 +140,7 @@
                     @enderror
                 </div>
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Durrée du séjour (jours)</label>
+                    <label for="" class="text-gray-600 mb-6">Durrée du séjour (jours) <span class="text-red-700">*</span></label>
                     <div><input name="stay_duration" type="number"
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline"
                             value="{{ isset($data) ? $data['stay_duration']  : old('stay_duration') }}"></div>

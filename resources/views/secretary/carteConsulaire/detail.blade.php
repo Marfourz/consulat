@@ -6,10 +6,8 @@
 @section('content')
     <div class="w-full p-16">
         {{-- @if($demande->status() != "Accepté" && $demande->status() != "Rejeté")
-       
-        @endif --}}
-
-        <div class="text-2xl text-gray-700 mb-8 flex space-x-4 justify-between">
+            
+            <div class="text-2xl text-gray-700 mb-8 flex space-x-4 justify-between">
             <div>Détail de la demande de carte consulaire</div>
             <div class="flex space-x-2">
                 <a href="{{route('carteConsulaire.preview',$demande->id)}}">
@@ -33,6 +31,9 @@
             </div>
             
         </div>
+        @endif --}}
+
+    
         @include('citizen.carteConsulaire.includes.decision',['demande'=>$demande])
         @include('citizen.carteConsulaire.includes.detail',['demande'=>$demande])
     </div>

@@ -53,6 +53,31 @@ class Visa extends Model
     public function type(){
         return "Visa";
     }
+
+    public function alreadyAcceptOrReject(){
+
+        if($this->traitements){
+            
+
+            if(count($this->traitements) == 0)
+                return false;
+            else{
+                $status = $this->traitements->last()->status;
+                if($status == "reject" || $status == 'accept'){
+                    return true;
+                }
+            }
+   
+            
+
+          
+        }
+       
+
+        return false;
+    }
+
+
     public function status(){
         if(count($this->traitements) == 0)
         return "Nouvelle demande";

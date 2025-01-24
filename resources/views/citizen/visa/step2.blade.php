@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
 @section('content')
-<div class="w-full p-12">
+<div class="w-full md:p-12 p-4">
 
 
     <div class="bg-white shadow-xl rounded p-8">
@@ -25,7 +25,7 @@
             <div class="grid md:grid-cols-3 grid-cols-1 gap-y-4 gap-x-6">
                
                 <div class="col-span-2">
-                    <label for="" class="text-gray-600 mb-6">Motif détallé du voyage</label>
+                    <label for="" class="text-gray-600 mb-6">Motif détallé du voyage <span class="text-red-700">*</span></label>
                     <div><input required name="travel_reason" type="text"
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline"
                             value="{{isset($data) ? $data['travel_reason']  : old('travel_reason') }}"></div>
@@ -35,7 +35,7 @@
 
                 </div>
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Date d'entrée</label>
+                    <label for="" class="text-gray-600 mb-6">Date d'entrée<span class="text-red-700">*</span></label>
                     <div><input required name="entry_at" type="date"
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline"
                             value="{{isset($data) ? $data['entry_at']  : old('entry_at') }}"></div>
@@ -45,7 +45,7 @@
 
                 </div>
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Attaché familiale en cote d'ivoire</label>
+                    <label for="" class="text-gray-600 mb-6">Attaché familiale en cote d'ivoire <span class="text-red-700">*</span></label>
                     <div class="flex space-x-2">
                         <div class="rounded border-2 py-2 px-4 w-1/2">
                             <input type="radio" name="has_relatives_in_ivoir" value="1" id="has_relatives_in_ivoir_oui">
@@ -61,7 +61,7 @@
                 </div>
                 <div class="col-span-2">
                     <label for="" class="text-gray-600 mb-6">Indication de vos adresses exactes en (rue et N°) en Côte
-                        d'Ivoire pendant votre séjour</label>
+                        d'Ivoire pendant votre séjour <span class="text-red-700">*</span></label>
                     <div><input required name="ivoir_adress_during_staying" type="text"
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline"
                             value="{{isset($data) ? $data['ivoir_adress_during_staying']  : old('ivoir_adress_during_staying') }}"></div>

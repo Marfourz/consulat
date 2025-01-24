@@ -3,7 +3,7 @@
 @extends('layouts.layout')
 
 @section('content')
-<div class="w-full p-12">
+<div class="w-full p-12 md:p-12 p-4">
 
 
     <div class="bg-white shadow-xl rounded p-8">
@@ -27,7 +27,7 @@
             <div class="grid md:grid-cols-3 grid-cols-1 gap-y-4 gap-x-6">
                
                 <div>
-                    <label for="">Type de la piece</label>
+                    <label for="">Type de la piece <span class="text-red-700">*</span></label>
                     <select required name="piece_type" id="piece_type"
                         class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline">
                         <option value="single">Carte d'identité</option>
@@ -35,9 +35,10 @@
                         <option value="divorced">Carte biométrique</option>
                        
                     </select>
+                    
                 </div>
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Date d'obtention</label>
+                    <label for="" class="text-gray-600 mb-6">Date d'obtention <span class="text-red-700">*</span></label>
                     <div><input required name="piece_etablish_at" type="date"
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline"
                             value="{{isset($data) ? $data['piece_etablish_at']  : old('piece_etablish_at') }}"></div>
@@ -50,7 +51,7 @@
 
 
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Numéro de la pièce</label>
+                    <label for="" class="text-gray-600 mb-6">Numéro de la pièce <span class="text-red-700">*</span></label>
                     <div><input required name="piece_number" type="text"
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline"
                             value="{{isset($data) ? $data['piece_number']  : old('piece_number') }}"></div>
@@ -61,7 +62,7 @@
                 </div>
 
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Lieu d'obtention</label>
+                    <label for="" class="text-gray-600 mb-6">Lieu d'obtention <span class="text-red-700">*</span></label>
                     <div><input required name="piece_etablishment_place" type="text"
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline"
                             value="{{isset($data) ? $data['piece_etablishment_place']  : old('piece_etablishment_place') }}"></div>
@@ -72,7 +73,7 @@
                 </div>
 
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Établir par</label>
+                    <label for="" class="text-gray-600 mb-6">Établir par <span class="text-red-700">*</span></label>
                     <div><input required name="piece_etablish_by" type="text"
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline"
                             value="{{isset($data) ? $data['piece_etablish_by']  : old('piece_etablish_by') }}"></div>
@@ -83,7 +84,7 @@
                 </div>
 
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Expire le</label>
+                    <label for="" class="text-gray-600 mb-6">Expire le <span class="text-red-700">*</span></label>
                     <div><input required name="piece_expiry_at" type="date"
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline"
                             value="{{isset($data) ? $data['piece_expiry_at']  : old('piece_expiry_at') }}"></div>
@@ -93,7 +94,7 @@
 
                 </div>
 
-                <div class="col-span-3">Information sur le passport</div>
+                <div class="col-span-3">Information sur le passport <span class="text-red-700">*</span></div>
                 <div>
                     <label for="" class="text-gray-600 mb-6">Obtenu le : </label>
                     <div><input required name="passport_extend_from" type="date"
@@ -105,7 +106,7 @@
 
                 </div>
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Expire le: </label>
+                    <label for="" class="text-gray-600 mb-6">Expire le: <span class="text-red-700">*</span></label>
                     <div><input required name="passport_extend_to" type="date"
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline"
                             value="{{isset($data['passport_extend_to']) ? $data['passport_extend_to']  : old('passport_extend_to') }}"></div>
@@ -115,7 +116,7 @@
 
                 </div>
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Lieu d'obtention: </label>
+                    <label for="" class="text-gray-600 mb-6">Lieu d'obtention: <span class="text-red-700">*</span></label>
                     <div><input required name="passport_extend_by" type="text"
                             class="border-2 w-full rounded-md p-2  text-gray-700 focus:outline-none focus:shadow-outline"
                             value="{{isset($data['passport_extend_by']) ? $data['passport_extend_by']  : old('passport_extend_by') }}"></div>

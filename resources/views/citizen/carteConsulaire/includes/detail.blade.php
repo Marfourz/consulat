@@ -1,4 +1,4 @@
-<div>
+<div class="p-4">
     <table class="table-auto bg-white w-full border-collapse">
         <tbody>
             <tr class="bg-gray-100">
@@ -213,7 +213,7 @@
                     Une photo d'identité
                 </td>
                 <td class="font-bold px-6">
-                    <a class="text-blue-700 underline" href="{{ asset('storage/'.$demande->path_picture)}}">Photo d'identité</a>
+                    <a class="text-blue-700 underline" href="{{ url('file/'.$demande->path_picture)}}">Photo d'identité</a>
                 </td>
                 
             </tr>
@@ -223,7 +223,7 @@
                     Votre attestation de résidence
                 </td>
                 <td class="font-bold px-6">
-                    <a  href="{{ asset('storage/'.$demande->path_picture)}}"class="text-blue-700 underline">Cliquez pour voir l'attestation</a>
+                    <a  href="{{ url('file/'.$demande->path_picture)}}"class="text-blue-700 underline">Cliquez pour voir l'attestation</a>
                 </td>
                 
             </tr>

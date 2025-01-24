@@ -48,7 +48,7 @@ class CarteConsulaire extends Model
     }
 
     public function status(){
-        if(count($this->traitements) == 0)
+    if(count($this->traitements) == 0)
         return "Nouvelle demande";
     else{
         $status = $this->traitements->last()->status;

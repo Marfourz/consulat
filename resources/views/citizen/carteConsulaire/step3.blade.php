@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
 @section('content')
-    <div class="w-full p-12">
+    <div class="w-full p-12 md:p-12 p-4">
 
 
         <div class="bg-white shadow-xl rounded p-8">

@@ -6,7 +6,7 @@
         Demande accepté et document généré avec succès
     </div>
     <div>
-        <a href="{{asset($traitement->document)}}"><button class="bg-white shadow-xl py-1 px-2 rounded text-gray-700 font-bold">Télécharger le laissez passer</button></a>
+        <a href="{{ url('file/' . $traitement->document) }}"><button class="bg-white shadow-xl py-1 px-2 rounded text-gray-700 font-bold">Télécharger le laissez passer</button></a>
     </div>
     
 </div>

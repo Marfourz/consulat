@@ -27,7 +27,8 @@ class User extends Authenticatable
         'profession',
         'birthplace',
         'birthday',
-        'nationality'
+        //'nationality',
+        'nationality_id'
     ];
 
     /**

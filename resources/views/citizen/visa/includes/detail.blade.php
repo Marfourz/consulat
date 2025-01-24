@@ -199,7 +199,7 @@
                     Billet d'avion
                 </td>
                 <td class="font-bold px-6">
-                    <a  href="{{ asset('storage/'.$demande->path_plane_ticket)}}"class="text-blue-700 underline">Cliquez pour voir l'attestation</a>
+                    <a  href="{{ asset('file/'.$demande->path_plane_ticket)}}"class="text-blue-700 underline">Cliquez pour voir l'attestation</a>
                 </td>
                 
             </tr>
@@ -209,7 +209,7 @@
                    Pièce d'identité
                 </td>
                 <td class="font-bold px-6">
-                    <a  href="{{ asset('storage/'.$demande->path_passport)}}"class="text-blue-700 underline">Cliquez pour voir l'attestation</a>
+                    <a  href="{{ asset('file/'.$demande->path_passport)}}"class="text-blue-700 underline">Cliquez pour voir l'attestation</a>
                 </td>
                 
             </tr>
@@ -219,7 +219,7 @@
                     Premère page de votre passport
                 </td>
                 <td class="font-bold px-6">
-                    <a  href="{{ asset('storage/'.$demande->path_letter_invatation_or_hotel_reservation)}}"class="text-blue-700 underline">Cliquez pour voir l'attestation</a>
+                    <a  href="{{ asset('file/'.$demande->path_letter_invatation_or_hotel_reservation)}}"class="text-blue-700 underline">Cliquez pour voir l'attestation</a>
                 </td>
                 
             </tr>
@@ -229,7 +229,7 @@
                     Tout document justifiant le voyage ou le séjour en côte d'ivoire
                 </td>
                 <td class="font-bold px-6">
-                    <a  href="{{ asset('storage/'.$demande->path_picture)}}"class="text-blue-700 underline">Cliquez pour voir l'attestation</a>
+                    <a  href="{{ asset('file/'.$demande->path_picture)}}"class="text-blue-700 underline">Cliquez pour voir l'attestation</a>
                 </td>
                 
             </tr>

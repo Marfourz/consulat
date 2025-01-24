@@ -3,8 +3,8 @@
         Consulat
     </div>
     <div class="flex flex-col space-y-4 ">
-        <div class="opacity-10 items-center flex w-full bg-gray-800 bg-opacity-10 space-x-4 text-white">
-            <div class="bg-white w-1 h-12"></div>
+        <div class=" items-center flex w-full   space-x-4 {{ $menu == 'dashboard' ? 'text-white opacity-10 bg-opacity-10 bg-gray-800' : 'text-gray-700' }}">
+            <div class="{{ $menu == 'dashboard' ? 'bg-white' : '' }} w-1 h-12"></div>
             <div><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -14,8 +14,8 @@
         </div>
 
 
-        <div class="opacity-10 items-center flex w-full space-x-4 text-gray-700">
-            <div class=" w-2 h-12"></div>
+        <div class="opacity-10 items-center flex w-full space-x-4 {{ $menu == 'carteConsulaire' ? 'text-white opacity-10 bg-opacity-10 bg-gray-800' : 'text-gray-700' }}">
+            <div class="{{ $menu == 'carteConsulaire' ? 'bg-white' : '' }}  w-2 h-12"></div>
             <div><svg class="w-5 h-5" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M5 3C3.89543 3 3 3.89543 3 5V7C3 8.10457 3.89543 9 5 9H7C8.10457 9 9 8.10457 9 7V5C9 3.89543 8.10457 3 7 3H5Z"
@@ -30,11 +30,12 @@
                         d="M11 13C11 11.8954 11.8954 11 13 11H15C16.1046 11 17 11.8954 17 13V15C17 16.1046 16.1046 17 15 17H13C11.8954 17 11 16.1046 11 15V13Z"
                         fill="currentColor"></path>
                 </svg></div>
-            <div class="">Carte consulaire</div>
+                <a href="{{ route('secretary.dashboard.carteConsulaire') }}" class="">Carte consulaire</a>
+          
         </div>
 
-        <div class="opacity-10 items-center flex w-full space-x-4 text-gray-700">
-            <div class=" w-2 h-12"></div>
+        <div class="opacity-10 items-center flex w-full space-x-4 {{ $menu == 'laissezPasser' ? 'text-white opacity-10 bg-opacity-10 bg-gray-800' : 'text-gray-700' }}">
+            <div class="{{ $menu == 'laissezPasser' ? 'bg-white' : '' }} w-2 h-12"></div>
             <div><svg class="w-5 h-5" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M5 3C3.89543 3 3 3.89543 3 5V7C3 8.10457 3.89543 9 5 9H7C8.10457 9 9 8.10457 9 7V5C9 3.89543 8.10457 3 7 3H5Z"
@@ -49,17 +50,18 @@
                         d="M11 13C11 11.8954 11.8954 11 13 11H15C16.1046 11 17 11.8954 17 13V15C17 16.1046 16.1046 17 15 17H13C11.8954 17 11 16.1046 11 15V13Z"
                         fill="currentColor"></path>
                 </svg></div>
-            <div class="">Laissez passer</div>
+                <a href="{{ route('secretary.dashboard.laissezPasser') }}" class="">Laissez passer</a>
         </div>
 
-        <div class="opacity-10 items-center flex w-full space-x-4 text-gray-700">
-            <div class=" w-2 h-12"></div>
+        <div class="opacity-10 items-center flex w-full space-x-4 {{ $menu == 'visa' ? 'text-white opacity-10 bg-opacity-10 bg-gray-800' : 'text-gray-700' }}">
+            <div class="{{ $menu == 'visa' ? 'bg-white' : '' }} w-2 h-12"></div>
             <div><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg></div>
-            <div class="">Visa</div>
+                <a href="{{ route('secretary.dashboard.visa') }}" class="">Visa</a>
+
         </div>
 
         <div class="opacity-10 items-center flex w-full space-x-4 text-gray-700">

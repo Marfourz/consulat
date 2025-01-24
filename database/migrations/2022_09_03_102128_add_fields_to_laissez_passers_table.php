@@ -14,7 +14,6 @@ class AddFieldsToLaissezPassersTable extends Migration
     public function up()
     {
         Schema::table('laissez_passers', function (Blueprint $table) {
-            $table->string('size')->nullable()->change();
             $table->string('hair_color')->nullable();
             $table->string('eye_color')->nullable();
             $table->string('particular_sign')->nullable();

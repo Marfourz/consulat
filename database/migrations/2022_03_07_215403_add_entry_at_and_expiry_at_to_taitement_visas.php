@@ -26,7 +26,7 @@ class AddEntryAtAndExpiryAtToTaitementVisas extends Migration
      */
     public function down()
     {
-        Schema::table('taitement_visas', function (Blueprint $table) {
+        Schema::table('traitement_visas', function (Blueprint $table) {
             $table->dropColumn('entry_at');
             $table->dropColumn('expiry_at');
         });

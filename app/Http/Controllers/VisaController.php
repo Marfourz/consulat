@@ -6,10 +6,13 @@ use Illuminate\Http\Request;
 use App\Models\Visa;
 use App\Models\GlobalInfo;
 use App\Models\TraitementVisa;
+use App\Models\User;
+use App\Models\Price;
 use Arr;
 use Auth;
 use PDF;
 use Str;
+use File;
 
 class VisaController extends Controller
 {
@@ -95,7 +98,16 @@ class VisaController extends Controller
     }
 
     public function payment(){
-        $amount = GlobalInfo::first()->price_visa;
+        $user_id = Auth::user()->id;
+        $user = User::where('id', $user_id)->first();
+        $amount = Price::where('nationality_id', $user->nationality_id)
+                  ->where('document_type', 'carteConsulaire')
+                  ->first();
+        if(!$amount){
+            $amount = GlobalInfo::first()->price_visa;
+        }
+        else
+            $amount = $amount->price;
         $redirectionUrl = "/citizen/visa/request/store/";
         return view('citizen.payment',compact('amount','redirectionUrl'));
         
@@ -103,7 +115,9 @@ class VisaController extends Controller
 
     public function show($demandeId){
         $demande = Visa::where('id',$demandeId)->first();
-        return view('secretary.visa.detail',compact('demande'));
+
+        $menu = "visa";
+        return view('secretary.visa.detail',compact('demande', 'menu'));
     }
 
     public function showForCitizen($demandeId){
@@ -139,12 +153,24 @@ class VisaController extends Controller
     }
 
     public function generate(Request $request){
+        
+        $directory =  'visas' . DIRECTORY_SEPARATOR . 'documents';
+        $saveDirectory = 'app' . DIRECTORY_SEPARATOR  . $directory;
+
+        if(!File::isDirectory(storage_path($saveDirectory)))
+            File::makeDirectory(storage_path($saveDirectory), 0777, true, true);
+
         $data = $request->input();
         $demande = Visa::where('id',$data['demandeId'])->first();
         $customPaper = array(0,0,200,160);
         $pdf = PDF::loadView('secretary.visa.template', compact('demande','data'))->setPaper($customPaper,'landscape');
-        $path = "storage/visas/documents/" . $demande->user->id ."-visa.pdf";
-        $pdf->save(public_path($path));
+        
+        $path = $directory .  DIRECTORY_SEPARATOR .  $demande->user->id ."-visas.pdf";
+        $savePath = storage_path($saveDirectory . DIRECTORY_SEPARATOR. $demande->user->id ."-visas.pdf");
+
+        // Sauvegarder le PDF
+        $pdf->save($savePath);
+        
         $traitement = new TraitementVisa();
         $traitement->status = "accept";
         $traitement->document = $path;

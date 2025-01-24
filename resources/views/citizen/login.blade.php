@@ -5,9 +5,9 @@
     <div class="hidden md:flex  md:w-1/2 items-center">
         <img class="w-full h-full " src="{{asset('images/smile2.png')}}" alt="">
     </div>
-    <div class="md:w-2/3 md:flex flex-col items-center justify-center pt-8 h-full" style="background-color:
+    <div class="md:w-2/3 w-full md:flex flex-col items-center justify-center pt-8 h-full" style="background-color:
 ">
-        <div class="p-8 shadow flex flex-col w-3/5 justify-center items-center bg-white">
+        <div class="p-8 shadow flex flex-col md:w-3/5 m-4 justify-center items-center bg-white">
             <div class="text-2xl font-bold text-gray-700 mb-6 text-center"> Connexion</div>
             <form action="{{route('verifyLogin')}}" class="w-full space-y-4 flex justify-center flex-col" method="POST">
                 @csrf
@@ -20,14 +20,14 @@
                     </div>
                 @endif
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Nom</label>
+                    <label for="" class="text-gray-600 mb-6">Email <span class="text-red-700">*</span></label>
                     <div class="w-full"><input required type="email" name="email"
                             class=" w-full border-2 rounded p-2 text-gray-700 focus:outline-none focus:shadow-outline"></div>
 
                 </div>
 
                 <div>
-                    <label for="" class="text-gray-600 mb-6">Prénom</label>
+                    <label for="" class="text-gray-600 mb-6">Mot de passe <span class="text-red-700">*</span></label>
                     <div>
                         <input  name="password" type="password"
                                 class="w-full border-2 rounded p-2 text-gray-700 focus:outline-none focus:shadow-outline">

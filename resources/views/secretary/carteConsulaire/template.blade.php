@@ -71,7 +71,7 @@
                 <div>{{$demande->piece_etablish_at }}</div>
                 
                 <div class="picture-wrapper">
-                    <img  src="{{ asset('storage/'.$demande->path_picture)}}" alt="" width="100px" height="100px">
+                    <img  src="{{ storage_path('app/' .$demande->path_picture) }}" alt="" width="100px" height="100px">
                     <div class="picture-title">
                         <span>Signature ou Empreinte du Titulaire</span><br>
                         <span>Bearer's Signature & Finger Print</span>

@@ -4,11 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Nationality;
 use Hash;
 use Auth;
 
 class UserController extends Controller
 {
+
+
+    public function get_register_form($uri=null){
+        $nationalities = Nationality::all();
+        return view('citizen.register', compact('nationalities', 'uri'));
+    }
+
+
+  
     
     public function register(Request $request){
         
@@ -19,7 +29,6 @@ class UserController extends Controller
             'lastname' => 'required|max:255',
             'birthday' => 'required|max:255',
             'birthplace' => 'required|max:255',
-            'nationality' => 'required|max:255',
             'adress' => 'required|max:255',
             'profession' => 'required|max:255',
             'email' => 'required|max:255|email|unique:users',
@@ -31,7 +40,7 @@ class UserController extends Controller
             'lastname' => $data['lastname'],
             'birthday' => $data['birthday'],
             'birthplace' => $data['birthplace'],
-            'nationality' => $data['nationality'],
+            'nationality_id' => $data['nationality_id'],
             'adress' => $data['adress'],
             'profession' => $data['profession'],
             'email' => $data['email'],

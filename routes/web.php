@@ -16,9 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/register/{uri?}',function($uri=null){
-    return view('citizen.register',['uri'=>$uri]);
-})->name('register')->where('uri', '.*');
+// Route::get('/register/{uri?}',function($uri=null){
+//     return view('citizen.register',['uri'=>$uri]);
+// })->name('register')->where('uri', '.*');
+
+Route::get('/register/{uri?}',[App\Http\Controllers\UserController::class, 'get_register_form'])->name('register')->where('uri', '.*');
 
 
 Route::post('/register',[App\Http\Controllers\UserController::class, 'register'])->name('users.store');
@@ -41,6 +43,21 @@ Route::get('/citizen/visa/request',function(){
     return view('citizen.visa.create');
 });
 
+
+Route::get('/file/{filePath}', function ($filePath) {
+
+    // Construire le chemin complet vers le fichier dans le stockage public
+    $path = 'app' . DIRECTORY_SEPARATOR . $filePath; 
+
+    // Vérifier si le fichier existe
+    if (Storage::disk('local')->exists($filePath)) {
+        // Retourner le fichier pour l'affichage
+        return response()->file(storage_path($path));
+    }
+
+    // Si le fichier n'existe pas, renvoyer une erreur 404
+    return abort(404, 'File not found.');
+})->where('filePath', '.*');
 
 
 Route::middleware(['isAuthenticate'])->group(function(){
@@ -80,12 +97,19 @@ Route::middleware(['isAuthenticate'])->group(function(){
     Route::get('/citizen/laissez-passer/request/store/{transactionId}', [App\Http\Controllers\LaissezPasserController::class, 'store']);
 
 
+
     
 });
 
 Route::middleware(['isSecretary'])->group(function(){
+
+   
     
     Route::get('/secretary/dashboard', [App\Http\Controllers\SecretaryDashboardController::class,'index'])->name('secretary.dashboard');
+    Route::get('/secretary/dashboard/carteConsulaires', [App\Http\Controllers\SecretaryDashboardController::class,'carteConsulaire'])->name('secretary.dashboard.carteConsulaire');
+    Route::get('/secretary/dashboard/visas', [App\Http\Controllers\SecretaryDashboardController::class,'visa'])->name('secretary.dashboard.visa');
+
+    Route::get('/secretary/dashboard/laissezPassers', [App\Http\Controllers\SecretaryDashboardController::class,'laissezPasser'])->name('secretary.dashboard.laissezPasser');
 
 
     Route::get('/carteConsulaire/{demandeId}', [App\Http\Controllers\CarteConsulaireController::class, 'show'])->name('carteConsulaire.show');
@@ -102,6 +126,9 @@ Route::middleware(['isSecretary'])->group(function(){
     Route::get('/visa/{demandeId}/download', [App\Http\Controllers\VisaController::class, 'download'])->name('visa.download');
     Route::get('/visa/{demandeId}/reject',[App\Http\Controllers\VisaController::class, 'showRequestReject'])->name('visa.showWithError');
     Route::post('/visa/reject', [App\Http\Controllers\VisaController::class, 'reject'])->name('visa.reject');
+    Route::post('/visa/generate',[App\Http\Controllers\VisaController::class, 'generate'])->name('visa.generate');
+
+
 
     Route::get('/laissezPasser/{demandeId}', [App\Http\Controllers\LaissezPasserController::class, 'show'])->name('laissezPasser.show');
     Route::get('/laissezPasser/{demandeId}/preview', [App\Http\Controllers\LaissezPasserController::class, 'preview'])->name('laissezPasser.preview');
@@ -111,7 +138,7 @@ Route::middleware(['isSecretary'])->group(function(){
     Route::post('/laissezPasser/generate',[App\Http\Controllers\LaissezPasserController::class, 'generate'])->name('laissezPasser.generate');
 
 
-
+  
 
 });
 

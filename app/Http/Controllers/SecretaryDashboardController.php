@@ -13,8 +13,14 @@ use Arr;
 
 class SecretaryDashboardController extends Controller
 {
+
+
+    
+
     
     public function index(){
+
+        $menu = "dashboard";
        
         $totalVisa = Visa::count();
         $totalLaissezPasser = LaissezPasser::count();
@@ -31,7 +37,36 @@ class SecretaryDashboardController extends Controller
         
        
         
-        return view('secretary.index',compact('totalVisa','totalLaissezPasser','totalCarteConsulaire','demandes'));
+        return view('secretary.index',compact('totalVisa','totalLaissezPasser','totalCarteConsulaire','demandes', 'menu'));
+    }
+
+
+    public function carteConsulaire(){
+       
+
+        $menu = "carteConsulaire";
+        $demandes = CarteConsulaire::with('user')->paginate(1);
+
+        
+        return view('secretary.carteConsulaire.index',compact('demandes', 'menu'));
+    }
+
+
+    public function visa(){
+       
+
+        $menu = 'visa';
+        $demandes = Visa::with('user')->paginate(1);
+
+        
+        return view('secretary.visa.index',compact('demandes', 'menu'));
+    }
+
+    public function laissezPasser(){
+       
+        $menu = 'laissezPasser';
+        $demandes = LaissezPasser::with('user')->paginate(1);
+        return view('secretary.laissezPasser.index',compact('demandes', 'menu'));
     }
 
   

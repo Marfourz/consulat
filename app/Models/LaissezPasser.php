@@ -58,4 +58,23 @@ class LaissezPasser extends Model
         else if ($status == "accept" )
             return "Accepté";
     }}
+
+
+    public function alreadyAcceptOrReject(){
+
+        if($this->traitements){
+            
+
+            if(count($this->traitements) == 0)
+                return false;
+            else{
+                $status = $this->traitements->last()->status;
+                if($status == "reject" || $status == 'accept'){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }

@@ -1,12 +1,12 @@
 @foreach($demande->traitements as $traitement)
 @if($traitement->status == 'accept')
 
-<div class="flex mb-4 bg-green-700 text-white rounded-lg px-4 py-3 justify-between">
+<div class="flex mb-4 bg-green-400 text-white font-bold rounded-lg px-4 py-3 justify-between">
     <div>
         Demande accepté et document généré avec succès
     </div>
     <div>
-        <a href="{{asset($traitement->document)}}"><button class="bg-white shadow-xl py-1 px-2 rounded text-gray-700 font-bold">Télécharger le visa</button></a>
+        <a href="{{ url('file/' . $traitement->document) }}"><button class="bg-white shadow-xl py-1 px-2 rounded text-gray-700 font-bold">Télécharger le visa</button></a>
         
     </div>
     

@@ -39,6 +39,8 @@ class CarteConsulaireController extends Controller
     }
 
     public function storeStep2(Request $request){
+
+       
         
         $request->session()->put('step2Data',$request->input());
         return redirect()->route('carteConsulaire.createStep3');
@@ -54,13 +56,16 @@ class CarteConsulaireController extends Controller
         $files = [];
        
        
-        
+        $request->validate([
+            'picture' => 'required|mimes:jpg,jpeg,png|max:2048', // Autorise PDF, JPG, PNG, taille max 2MB
+        ]);
+
         $files['path_residence_attestation'] = $request->file('attestation_residence')->storeAs(
-            'carteConsulaires/attestation_residence',Str::random() . '-attestation-residence.' . $request->file('attestation_residence')->extension()
+            'carteConsulaires/attestation_residence',$user_id . Str::random() . '-attestation-residence.' . $request->file('attestation_residence')->extension(),
         );
 
         $files['path_picture'] = $request->file('picture')->storeAs(
-            'carteConsulaires/pictures',Str::random() . '-photo.' . $request->file('picture')->extension()
+            'carteConsulaires/pictures',$user_id . Str::random() . '-photo.' . $request->file('picture')->extension()
         );
 
         $request->session()->put('step3Data',$files);
@@ -71,7 +76,7 @@ class CarteConsulaireController extends Controller
 
     
     public function payment(){
-        $amount = GlobalInfo::first()->price_visa;
+        $amount = GlobalInfo::first()->price_carte_consulaire;
         $redirectionUrl = "/citizen/carte-consulaire/request/store/";
         return view('citizen.payment',compact('amount','redirectionUrl'));
         
@@ -100,7 +105,8 @@ class CarteConsulaireController extends Controller
 
     public function show($demandeId){
         $demande = CarteConsulaire::where('id',$demandeId)->first();
-        return view('secretary.detail',compact('demande'));
+        $menu = "carteConsulaire";
+        return view('secretary.detail',compact('demande', 'menu'));
     }
 
     public function showForCitizen($demandeId){
@@ -137,9 +143,14 @@ class CarteConsulaireController extends Controller
     }
 
     public function generate(Request $request){
-        $directory = 'storage/carteConsulaire/documents';
-       if(!File::isDirectory($directory))
-            File::makeDirectory($directory, 0777, true, true);
+        $directory =  'carteConsulaires' . DIRECTORY_SEPARATOR . 'documents';
+        $saveDirectory = 'app' . DIRECTORY_SEPARATOR  . $directory;
+
+       
+       
+       if(!File::isDirectory(storage_path($saveDirectory)))
+            File::makeDirectory(storage_path($saveDirectory), 0777, true, true);
+        
         $data = $request->input();
         $demande = CarteConsulaire::where('id',$data['demandeId'])->first();
 
@@ -148,8 +159,12 @@ class CarteConsulaireController extends Controller
         $pdf = PDF::loadView('secretary.carteConsulaire.template', compact('demande','data'))->setWarnings(false)->setPaper($customPaper, 'landscape');
 
         //$pdf = PDF::loadView('secretary.carteConsulaire.template', compact('demande','data'));
-        $path = $directory . $demande->user->id ."-carteConsulaire.pdf";
-        $pdf->save(public_path($path));
+        $path = $directory .  DIRECTORY_SEPARATOR .  $demande->user->id ."-carteConsulaire.pdf";
+        $savePath = storage_path($saveDirectory . DIRECTORY_SEPARATOR. $demande->user->id ."-carteConsulaire.pdf");
+        
+        set_time_limit(0);
+        $pdf->save($savePath);
+        
         $traitement = new TraitementCarteConsulaire();
         $traitement->status = "accept";
         $traitement->document = $path;

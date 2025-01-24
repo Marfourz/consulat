@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
 @section('content')
-    <div class="flex flex-col items-center w-screen p-16">
+    <div class="flex flex-col items-center w-screen md:p-16 p-4">
         <div class="text-gray-700  text-3xl">
             Liste de vos demandes
         </div>

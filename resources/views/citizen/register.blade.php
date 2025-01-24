@@ -18,7 +18,7 @@
                     <input type="hidden" name="redirectionUrl" value="{{ $uri }}">
                     <div class="grid md:grid-cols-2 grid-cols-1 gap-x-6 gap-y-4">
                         <div>
-                            <label for="" class="text-gray-600 mb-6">Nom</label>
+                            <label for="" class="text-gray-600 mb-6">Nom <span class="text-red-700">*</span></label>
                             <div><input name="lastname" type="text"
                                     class="border-2 rounded py-1 px-2  text-gray-700 focus:outline-none focus:shadow-outline w-full"
                                     value="{{ old('lastname') }}"></div>
@@ -29,7 +29,7 @@
                         </div>
 
                         <div>
-                            <label for="" class="text-gray-600 mb-6">Prénom</label>
+                            <label for="" class="text-gray-600 mb-6">Prénom <span class="text-red-700">*</span></label>
                             <div>
                                 <input name="firstname" type="text"
                                     class="w-full border-2 rounded py-1 px-2 text-gray-700 focus:outline-none focus:shadow-outline"
@@ -41,7 +41,7 @@
 
                         </div>
                         <div>
-                            <label for="" class="text-gray-600 mb-6">Date de naissance</label>
+                            <label for="" class="text-gray-600 mb-6">Date de naissance <span class="text-red-700">*</span></label>
                             <div><input name="birthday" type="date"
                                     class=" border-2 rounded py-1 px-2 text-gray-700 focus:outline-none w-full focus:shadow-outline"
                                     value="{{ old('birthday') }}"></div>
@@ -51,7 +51,7 @@
                         </div>
 
                         <div>
-                            <label for="" class="text-gray-600 mb-6">Lieu de naissance</label>
+                            <label for="" class="text-gray-600 mb-6">Lieu de naissance <span class="text-red-700">*</span></label>
                             <div>
                                 <input name="birthplace" type="text"
                                     class="w-full border-2 rounded py-1 px-2 text-gray-700 focus:outline-none focus:shadow-outline"
@@ -63,17 +63,30 @@
 
                         </div>
                         <div>
-                            <label for="" class="text-gray-600 mb-6">Nationalité</label>
-                            <div><input name="nationality" type="text"
+                            <label for="" class="text-gray-600 mb-6">Nationalité <span class="text-red-700">*</span></label>
+                            <div>
+                                <select name="nationality_id" id="nationality_id" 
                                     class="w-full border-2 rounded py-1 px-2 text-gray-700 focus:outline-none focus:shadow-outline"
-                                    value="{{ old('nationality') }}"></div>
-                            @error('nationality')
+                                    required
+                                    value="{{ old('nationality_id') }}">
+                                        @foreach($nationalities as $nationality)
+                                            <option value="{{ $nationality->id }}">{{ $nationality->name }}</option>
+                                        @endforeach
+                                </select>
+                            </div>
+                            @error('nationality_id')
                                 <div class="text-red-700">{{ $message }}</div>
                             @enderror
-                        </div>
+                            </div> 
+                         
+                            <!-- <div><input name="nationality" type="text"
+                                    class="w-full border-2 rounded py-1 px-2 text-gray-700 focus:outline-none focus:shadow-outline"
+                                    value="{{ old('nationality') }}"></div>
+                         
+                        </div> -->
 
                         <div>
-                            <label for="" class="text-gray-600 mb-6">Adresse</label>
+                            <label for="" class="text-gray-600 mb-6">Adresse <span class="text-red-700">*</span></label>
                             <div>
                                 <input name="adress" type="text"
                                     class="w-full border-2 rounded py-1 px-2 text-gray-700 focus:outline-none focus:shadow-outline"
@@ -87,7 +100,7 @@
                         </div>
 
                         <div>
-                            <label for="" class="text-gray-600 mb-6">Profession</label>
+                            <label for="" class="text-gray-600 mb-6">Profession <span class="text-red-700">*</span></label>
                             <div><input name="profession" type="text"
                                     class="w-full border-2 rounded py-1 px-2 text-gray-700 focus:outline-none focus:shadow-outline"
                                     value="{{ old('profession') }}"></div>
@@ -97,7 +110,7 @@
                         </div>
 
                         <div>
-                            <label for="" class="text-gray-600 mb-6">Email</label>
+                            <label for="" class="text-gray-600 mb-6">Email <span class="text-red-700">*</span></label>
                             <div>
                                 <input name="email" type="email"
                                     class="w-full border-2 rounded py-1 px-2 text-gray-700 focus:outline-none focus:shadow-outline"
@@ -109,7 +122,7 @@
 
                         </div>
                         <div>
-                            <label for="" class="text-gray-600 mb-6">Mot de passe</label>
+                            <label for="" class="text-gray-600 mb-6">Mot de passe <span class="text-red-700">*</span></label>
                             <div>
                                 <input name="password" type="password"
                                     class="w-full border-2 rounded py-1 px-2 text-gray-700 focus:outline-none focus:shadow-outline">
@@ -120,7 +133,7 @@
 
                         </div>
                         <div>
-                            <label for="" class="text-gray-600 mb-6">Confirmer le mot de passe</label>
+                            <label for="" class="text-gray-600 mb-6">Confirmer le mot de passe <span class="text-red-700">*</span></label>
                             <div>
                                 <input name="confirmPassword" type="password"
                                     class="w-full border-2 rounded py-1 px-2 text-gray-700 focus:outline-none focus:shadow-outline">

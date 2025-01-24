@@ -16,7 +16,7 @@ class CreateLaissezPassersTable extends Migration
         Schema::create('laissez_passers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->dateTime('arrival_at');
-            $table->string('size');
+            $table->string('size')->nullable();
             $table->string('ivoir_adress');
             $table->string('father_name',40);
             $table->string('mother_name',40);
